@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Horizon - Command & Achievement Badges</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Urbanist', sans-serif;
+            margin: 0;
+            padding: 60px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Ambient Sci-Fi Background Grid */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 50% 30%, rgba(212, 255, 0, 0.04) 0%, transparent 60%),
+                linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            z-index: 1;
+        }
+
+        .header p.mono {
+            font-family: 'JetBrains Mono', monospace;
+            color: #d4ff00;
+            font-size: 14px;
+            letter-spacing: 3px;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+        }
+
+        .header h1 {
+            font-size: 46px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin: 0;
+            letter-spacing: 2px;
+        }
+
+        .nav-link-btn {
+            background: rgba(212, 255, 0, 0.1);
+            border: 1px dashed #d4ff00;
+            color: #d4ff00;
+            padding: 10px 22px;
+            border-radius: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link-btn:hover {
+            background: #d4ff00;
+            color: #020617;
+            box-shadow: 0 0 15px rgba(212, 255, 0, 0.3);
+        }
+
+        .section-title {
+            width: 100%;
+            max-width: 1200px;
+            font-size: 22px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #94a3b8;
+            margin: 40px 0 25px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title span {
+            color: #d4ff00;
+        }
+
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+            z-index: 1;
+        }
+
+        .badge-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 35px 25px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .badge-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 30%, rgba(212, 255, 0, 0.05) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .badge-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(212, 255, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(212, 255, 0, 0.03);
+        }
+
+        .badge-card:hover::before {
+            opacity: 1;
+        }
+
+        /* SVG Badge Container */
+        .badge-icon-wrapper {
+            width: 170px;
+            height: 170px;
+            margin: 0 auto 25px auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .badge-svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 8px rgba(212, 255, 0, 0.15));
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .badge-card:hover .badge-svg {
+            transform: scale(1.08) rotate(3deg);
+        }
+
+        /* Information styles */
+        .badge-info-top {
+            flex-grow: 1;
+        }
+
+        .badge-rank {
+            font-family: 'JetBrains Mono', monospace;
+            color: #d4ff00;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+
+        .badge-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0 0 12px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-desc {
+            font-size: 15px;
+            color: #94a3b8;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            min-height: 68px;
+        }
+
+        .badge-meta {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 18px;
+            font-size: 13px;
+            color: #64748b;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: auto;
+        }
+
+        /* Action Buttons */
+        .action-container {
+            margin-top: 60px;
+            z-index: 1;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn {
+            background: transparent;
+            border: 1px solid #d4ff00;
+            color: #d4ff00;
+            padding: 14px 30px;
+            border-radius: 30px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            background: #d4ff00;
+            color: #020617;
+            box-shadow: 0 0 20px rgba(212, 255, 0, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <p class="mono">// ARTEMIS EXPEDITION I // 2026</p>
+        <h1>Mission Horizon Badges</h1>
+        <!-- STEP 3 NAVIGATION ELEMENT -->
+        <a href="modules.html" class="nav-link-btn">
+            <i class="fa-solid fa-person-chalkboard"></i> Go to Class Modules
+        </a>
+    </div>
+
+    <!-- SECTION 1: CORE PROGRESSION -->
+    <div class="section-title">
+        <i class="fa-solid fa-layer-group"></i> <span>Core</span> Command Ranks
+    </div>
+
+    <div class="badge-grid">
+        
+        <!-- CARD 1: SUPPORT CADET -->
+        <div class="badge-card">
+            <div class="badge-info-top">
+                <div class="badge-icon-wrapper">
+                    <svg class="badge-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="100" cy="100" r="90" stroke="rgba(212, 255, 0, 0.2)" stroke-width="2" />
+                        <circle cx="100" cy="100" r="82" stroke="#d4ff00" stroke-width="2" stroke-dasharray="8 6" />
+                        
+                        <line x1="100" y1="30" x2="100" y2="170" stroke="rgba(212, 255, 0, 0.15)" stroke-width="1" />
+                        <line x1="30" y1="100" x2="170" y2="100" stroke="rgba(212, 255, 0, 0.15)" stroke-width="1" />
+                        <circle cx="100" cy="100" r="45" stroke="rgba(212, 255, 0, 0.3)" stroke-width="1" />
+                        
+                        <path d="M 100 55 L 125 100 L 100 145 L 75 100 Z" fill="rgba(212, 255, 0, 0.1)" stroke="#d4ff00" stroke-width="2" />
+                        <circle cx="100" cy="100" r="6" fill="#d4ff00" />
+                        
+                        <path d="M 50 50 L 40 50 L 40 40" stroke="#d4ff00" stroke-width="2" fill="none" />
+                        <path d="M 150 50 L 160 50 L 160 40" stroke="#d4ff00" stroke-width="2" fill="none" />
+                        <path d="M 50 150 L 40 150 L 40 160" stroke="#d4ff00" stroke-width="2" fill="none" />
+                        <path d="M 150 150 L 160 150 L 160 160" stroke="#d4ff00" stroke-width="2" fill="none" />
+                    </svg>
+                </div>
+                <div class="badge-rank">Rank 01 // MOD 1</div>
+                <h2 class="badge-title">Support Cadet</h2>
+                <p class="badge-desc">Acquired by successfully calibrating measurements, standardizing metric units, and navigating vector planes.</p>
+            </div>
+            <div class="badge-meta">VECTORS • ALIGNMENT • 500 XP</div>
+        </div>
+
+        <!-- CARD 2: FLIGHT SPECIALIST -->
+        <div class="badge-card">
+            <div class="badge-info-top">
+                <div class="badge-icon-wrapper">
+                    <svg class="badge-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="100" cy="100" r="90" stroke="rgba(212, 255, 0, 0.2)" stroke-width="1" />
+                        <circle cx="100" cy="100" r="84" stroke="#d4ff00" stroke-width="3" stroke-dasharray="120 20 40 20" />
+                        
+                        <ellipse cx="100" cy="105" rx="70" ry="25" stroke="rgba(255, 255, 255, 0.3)" stroke-width="2" transform="rotate(-25 100 105)" />
+                        
+                        <g transform="translate(100,100) rotate(-45) translate(-100,-100)">
+                            <path d="M 85 120 L 100 135 L 115 120 Z" fill="#d4ff00" />
+                            <path d="M 92 130 L 92 85 L 100 70 L 108 85 L 108 130 Z" fill="#ffffff" />
+                            <path d="M 94 133 L 100 150 L 106 133 Z" fill="rgba(212, 255, 0, 0.8)" />
+                        </g>
+                        
+                        <circle cx="60" cy="60" r="2" fill="#fff" />
+                        <circle cx="150" cy="140" r="2.5" fill="#fff" />
+                        <circle cx="140" cy="65" r="1.5" fill="#d4ff00" />
+                    </svg>
+                </div>
+                <div class="badge-rank">Rank 02 // MOD 2</div>
+                <h2 class="badge-title">Flight Specialist</h2>
+                <p class="badge-desc">Unlocked through UARM mastery and demonstrating pinpoint trajectory estimations during flight operations.</p>
+            </div>
+            <div class="badge-meta">KINEMATICS • ASCENT • 1500 XP</div>
+        </div>
+
+        <!-- CARD 3: STRUCTURAL ENGINEER -->
+        <div class="badge-card">
+            <div class="badge-info-top">
+                <div class="badge-icon-wrapper">
+                    <svg class="badge-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="100" cy="100" r="90" stroke="rgba(212, 255, 0, 0.2)" stroke-width="1" />
+                        <circle cx="100" cy="100" r="82" stroke="#ffffff" stroke-width="1.5" />
+                        
+                        <path d="M 100 35 L 156 67 L 156 133 L 100 165 L 44 133 L 44 67 Z" stroke="#d4ff00" stroke-width="2" stroke-dasharray="6 4" fill="rgba(212, 255, 0, 0.05)" />
+                        
+                        <path d="M 100 35 L 100 80" stroke="#d4ff00" stroke-width="2" />
+                        <path d="M 44 133 L 80 112" stroke="#d4ff00" stroke-width="2" />
+                        <path d="M 156 133 L 120 112" stroke="#d4ff00" stroke-width="2" />
+                        
+                        <rect x="80" y="88" width="40" height="24" rx="4" fill="#ffffff" stroke="#020617" stroke-width="2" />
+                        <line x1="85" y1="100" x2="115" y2="100" stroke="#020617" stroke-width="2" />
+                        
+                        <text x="100" y="152" fill="rgba(255,255,255,0.4)" font-family="JetBrains Mono" font-size="10" text-anchor="middle">F_NET = 0</text>
+                    </svg>
+                </div>
+                <div class="badge-rank">Rank 03 // MOD 3</div>
+                <h2 class="badge-title">Structural Engineer</h2>
+                <p class="badge-desc">Awarded for establishing mechanical equilibrium, creating detailed FBDs, and stabilizing base systems.</p>
+            </div>
+            <div class="badge-meta">STATICS • DYNAMICS • 2500 XP</div>
+        </div>
+
+        <!-- CARD 4: ARTEMIS COMMANDER -->
+        <div class="badge-card">
+            <div class="badge-info-top">
+                <div class="badge-icon-wrapper">
+                    <svg class="badge-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="100" cy="100" r="90" stroke="rgba(212, 255, 0, 0.15)" stroke-width="2" />
+                        <circle cx="100" cy="100" r="84" stroke="#d4ff00" stroke-width="2" />
+                        <circle cx="100" cy="100" r="78" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="4 8" />
+                        
+                        <path d="M 135 65 A 45 45 0 1 0 135 135 A 35 35 0 1 1 135 65 Z" fill="#ffffff" />
+                        
+                        <circle cx="95" cy="100" r="16" fill="rgba(212, 255, 0, 0.2)" stroke="#d4ff00" stroke-width="2" />
+                        <circle cx="95" cy="100" r="6" fill="#d4ff00" />
+                        
+                        <line x1="95" y1="74" x2="95" y2="60" stroke="#d4ff00" stroke-width="1.5" />
+                        <line x1="95" y1="126" x2="95" y2="140" stroke="#d4ff00" stroke-width="1.5" />
+                        <line x1="69" y1="100" x2="55" y2="100" stroke="#d4ff00" stroke-width="1.5" />
+                        <line x1="121" y1="100" x2="110" y2="100" stroke="#d4ff00" stroke-width="1.5" />
+                    </svg>
+                </div>
+                <div class="badge-rank">Rank 04 // FINAL</div>
+                <h2 class="badge-title">Artemis Commander</h2>
+                <p class="badge-desc">The ultimate command certification. Achieved by mastering mechanical work and total energy conservation laws.</p>
+            </div>
+            <div class="badge-meta">ENERGY • POTENTIAL • 4000+ XP</div>
+        </div>
+
+    </div>
+
+    <!-- SECTION 2: SPECIAL ACHIEVEMENT BADGES -->
+    <div class="section-title">
+        <i class="fa-solid fa-award"></i> Special <span>Achievement</span> Medals
+    </div>
+
+    <div class="badge-grid">
+        
+        <!-- CARD 5: ACTIVE COMM LINK (PARTICIPATION) -->
+        <div class="badge-card">
+            <div class="badge-info-top">
+                <div class="badge-icon-wrapper">
+                    <svg class="badge-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="100" cy="100" r="90" stroke="rgba(212, 255, 0, 0.2)" stroke-width="1" />
+                        <circle cx="100" cy="100" r="82" stroke="#d4ff00" stroke-width="2" stroke-dasharray="10 5" />
+                        <circle cx="100" cy="100" r="74" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+                        
+                        <!-- Antenna Tower representation -->
+                        <polygon points="90,150 110,150 102,70 98,70" fill="#ffffff" stroke="#d4ff00" stroke-width="1" />
+                        <rect x="85" y="145" width="30" height="8" rx="2" fill="#d4ff00" />
+                        
+                        <!-- Quantum emitter -->
+                        <circle cx="100" cy="65" r="10" fill="#d4ff00" stroke="#ffffff" stroke-width="2" />
+                        <circle cx="100" cy="65" r="3" fill="#020617" />
+                        
+                        <!-- Transmitting Waves -->
+                        <path d="M 80 50 A 30 30 0 0 1 120 50" stroke="#d4ff00" stroke-width="2" stroke-linecap="round" fill="none" />
+                        <path d="M 70 40 A 45 45 0 0 1 130 40" stroke="rgba(212, 255, 0, 0.6)" stroke-width="2" stroke-linecap="round" fill="none" />
+                        <path d="M 60 30 A 60 60 0 0 1 140 30" stroke="rgba(212, 255, 0, 0.3)" stroke-width="2" stroke-linecap="round" fill="none" />
+                    </svg>
+                </div>
+                <div class="badge-rank">Achievement // Comm Link</div>
+                <h2 class="badge-title">Active Comm Link</h2>
+                <p class="badge-desc">Awarded to cadets exhibiting outstanding class participation, transmitting valuable solutions, and collaborating continuously.</p>
+            </div>
+            <div class="badge-meta">COLLABORATION • +300 XP</div>
+        </div>
+
+        <!-- CARD 6: STRUCTURAL ANCHOR (RESPONSIBILITY) -->
+        <div class="badge-card">
+            <div class="badge-info-top">
+                <div class="badge-icon-wrapper">
+                    <svg class="badge-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="100" cy="100" r="90" stroke="rgba(212, 255, 0, 0.2)" stroke-width="1" />
+                        <circle cx="100" cy="100" r="82" stroke="#ffffff" stroke-width="2" />
+                        
+                        <!-- Structural shield base -->
+                        <path d="M 70 60 L 130 60 L 130 110 C 130 140 100 160 100 160 C 100 160 70 140 70 110 Z" fill="rgba(255, 255, 255, 0.05)" stroke="#ffffff" stroke-width="2" />
+                        
+                        <!-- Mechanical structural anchor block -->
+                        <rect x="92" y="70" width="16" height="60" fill="#d4ff00" stroke="#020617" stroke-width="1.5" />
+                        <ellipse cx="100" cy="120" rx="20" ry="20" fill="#d4ff00" stroke="#ffffff" stroke-width="2" />
+                        <circle cx="100" cy="120" r="8" fill="#020617" />
+                        
+                        <line x1="80" y1="80" x2="120" y2="80" stroke="#ffffff" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                </div>
+                <div class="badge-rank">Achievement // Duty</div>
+                <h2 class="badge-title">Structural Anchor</h2>
+                <p class="badge-desc">Honoring high responsibility, constant duty compliance, on-time submissions, and maintaining the structural integrity of the squad.</p>
+            </div>
+            <div class="badge-meta">RESPONSIBILITY • +400 XP</div>
+        </div>
+
+        <!-- CARD 7: APEX NAVIGATOR (PERFORMANCE) -->
+        <div class="badge-card">
+            <div class="badge-info-top">
+                <div class="badge-icon-wrapper">
+                    <svg class="badge-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="100" cy="100" r="90" stroke="rgba(212, 255, 0, 0.15)" stroke-width="1" />
+                        <circle cx="100" cy="100" r="82" stroke="#d4ff00" stroke-width="2" />
+                        
+                        <!-- Navigation compass ticks -->
+                        <circle cx="100" cy="100" r="74" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="2 6" />
+                        
+                        <!-- Eight pointed star geometry -->
+                        <path d="M 100 40 L 112 88 L 160 100 L 112 112 L 100 160 L 88 112 L 40 100 L 88 88 Z" fill="rgba(212, 255, 0, 0.15)" stroke="#d4ff00" stroke-width="2" />
+                        <path d="M 100 65 L 106 94 L 135 100 L 106 106 L 100 135 L 94 106 L 65 100 L 94 94 Z" fill="#ffffff" />
+                        
+                        <!-- Target focal dots -->
+                        <circle cx="100" cy="100" r="4" fill="#d4ff00" />
+                        
+                        <!-- Dynamic indicators -->
+                        <path d="M 100 25 L 100 35" stroke="#d4ff00" stroke-width="2" />
+                        <path d="M 100 165 L 100 175" stroke="#d4ff00" stroke-width="2" />
+                        <path d="M 25 100 L 35 100" stroke="#d4ff00" stroke-width="2" />
+                        <path d="M 165 100 L 175 100" stroke="#d4ff00" stroke-width="2" />
+                    </svg>
+                </div>
+                <div class="badge-rank">Achievement // Elite</div>
+                <h2 class="badge-title">Apex Navigator</h2>
+                <p class="badge-desc">Awarded to cadets delivering outstanding performance, achieving perfect evaluations, and paving safe trajectories for others.</p>
+            </div>
+            <div class="badge-meta">PERFORMANCE • +500 XP</div>
+        </div>
+
+    </div>
+
+    <!-- STEP 3 ACTION ELEMENT -->
+    <div class="action-container">
+        <a href="modules.html" class="btn"><i class="fa-solid fa-person-chalkboard"></i> View Class Modules</a>
+        <button class="btn" onclick="window.print()"><i class="fa-solid fa-download"></i> Export Badges Sheet</button>
+    </div>
+
+</body>
+</html>
