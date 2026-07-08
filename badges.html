@@ -50,7 +50,7 @@
         /* MAIN CONTAINER FITTED TO THE HEIGHT OF THE VIEWPORT */
         .showcase-container {
             display: grid;
-            grid-template-columns: 1fr 380px;
+            grid-template-columns: 1fr 380px; /* Locked columns: Left grid remains flexible, Right panel stays fixed at 380px */
             gap: 20px;
             width: 100%;
             max-width: 1400px;
@@ -105,7 +105,7 @@
         /* GRID WITH AUTOMATIC SCROLL */
         .badge-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            grid-template-columns: repeat(3, 1fr); /* Enlisted in exactly three columns for a neat structural display */
             gap: 15px;
             overflow-y: auto; /* Exclusive scroll for cards */
             padding-right: 10px;
@@ -275,7 +275,10 @@
         @media (max-width: 968px) {
             html, body { overflow: auto; height: auto; }
             .showcase-container { grid-template-columns: 1fr; height: auto; }
-            .badge-grid { overflow-y: visible; }
+            .badge-grid { grid-template-columns: repeat(2, 1fr); overflow-y: visible; }
+        }
+        @media (max-width: 580px) {
+            .badge-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
