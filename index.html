@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy and Transformation I - Command Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Specific adjustments to adapt style.css to the landing page structural layout */
+        .navbar {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+            z-index: 1;
+        }
+        .banner-container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(212, 255, 0, 0.2);
+            border-radius: 16px;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            z-index: 1;
+            margin-bottom: 40px;
+        }
+        .banner-text h2 {
+            font-size: 32px;
+            color: #ffffff;
+            margin: 0 0 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .banner-text p {
+            font-size: 16px;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .banner-media {
+            width: 100%;
+            height: 100%;
+            min-height: 250px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        .banner-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .announcement-box {
+            background: rgba(212, 255, 0, 0.02);
+            border: 1px dashed rgba(212, 255, 0, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            width: 100%;
+            max-width: 1200px;
+            z-index: 1;
+            margin-bottom: 60px;
+        }
+        .announcement-item {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+            margin-top: 15px;
+        }
+        .announcement-item i {
+            color: #d4ff00;
+            margin-top: 4px;
+        }
+        .footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+            padding: 30px 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #475569;
+            z-index: 1;
+            letter-spacing: 1px;
+        }
+        @media (max-width: 768px) {
+            .banner-container { grid-template-columns: 1fr; gap: 20px; padding: 20px; }
+            .navbar { flex-wrap: wrap; justify-content: center; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <p class="mono"> // MISSION CONTROL CENTER //  </p>
+        <h1>Energy & Transformation I</h1>
+    </div>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-link-btn" style="background: #d4ff00; color: #020617;">
+            <i class="fa-solid fa-satellite-dish"></i> Hangar (Home)
+        </a>
+        <a href="modules.html" class="nav-link-btn">
+            <i class="fa-solid fa-cubes"></i> Class Modules
+        </a>
+        <a href="badges.html" class="nav-link-btn">
+            <i class="fa-solid fa-award"></i> Command Badges
+        </a>
+        <a href="excercises.html" class="nav-link-btn">
+            <i class="fa-solid fa-user-astronaut"></i> Tactical Training
+        </a>
+    </nav>
+
+    <div class="banner-container">
+        <div class="banner-text">
+            <p class="mono" style="color: #d4ff00; margin-bottom: 5px;">[ SYSTEM STATUS: OPERATIONAL ]</p>
+            <h2>The Next Giant Leap Needs Your Math</h2>
+            <p>
+                Following the historic success of the <strong>Artemis II</strong> crewed mission, humanity has officially broken ground on <strong>Lunar Base I</strong>. But survival on the lunar frontier is a brutal game of numbers. 
+            </p>
+            <p>
+                You are part of the elite engineering taskforce deployed to guarantee that physical protocols, precise navigation trajectories, and the base's volatile energy grids function flawlessly. In this harsh environment, there is no atmospheric cushion. <strong>A single calculation error—one misplaced vector, one misjudged joule of kinetic force—will compromise the integrity of the entire habitat and threaten the lives of your crew.</strong>
+            </p>
+            <p style="color: #ffffff; font-weight: bold;">
+                Calibrate your instruments, Cadet. Your shift begins now.
+            </p>
+        </div>
+        <div class="banner-media">
+            <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExMW1vbzBoYjhnOWthZ3l1eG1hcXA2c3ZyZDVldW9nMWl1dzRuOGFxbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mi6DsSSNKDbUY/giphy.gif" alt="Artemis Rocket Launch Sequence">
+        </div>
+    </div>
+
+    <div class="section-title">
+        <i class="fa-solid fa-bullhorn"></i> Incoming <span>Mission</span> Briefings
+    </div>
+
+    <div class="announcement-box">
+        <div class="announcement-item">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <div>
+                <strong style="color: #ffffff; font-family: 'JetBrains Mono'; display: block; font-size: 14px;">[ ALERT ] MISSION OVERVIEW ACTIVE</strong>
+                <span style="color: #94a3b8; font-size: 15px;">Welcome to the Hangar! Make sure to browse your active <strong>Class Modules</strong> to download current lecture files and complete assignments. Your XP progression is being monitored.</span>
+            </div>
+        </div>
+        <div class="announcement-item">
+            <i class="fa-solid fa-circle-info"></i>
+            <div>
+                <strong style="color: #ffffff; font-family: 'JetBrains Mono'; display: block; font-size: 14px;">[ NOTE ] COMMAND BADGES SYSTEM ONLINE</strong>
+                <span style="color: #94a3b8; font-size: 15px;">Check the <strong>Command Badges</strong> archive to review the special performance medals and rank status rewards available during this rotation cycle.</span>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>// NASA LUNAR INITIATIVE • TRANSMISSION SECURED VIA PORTAL-ENERGY AND TRANSFORMATION I-2026 //</p>
+    </footer>
+
+</body>
+</html>
