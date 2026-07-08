@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy and Transformation I - Command Badges</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Specific adjustments to adapt the interactive showcase layout to style.css */
+        .navbar {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+            z-index: 10;
+        }
+
+        /* Showcase layout split */
+        .showcase-container {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+            z-index: 1;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 968px) {
+            .showcase-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Dynamic Filter Navigation bar */
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            width: fit-content;
+            backdrop-filter: blur(10px);
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            padding: 8px 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            color: #f8fafc;
+        }
+
+        .filter-btn.active {
+            background: #d4ff00;
+            color: #020617;
+            box-shadow: 0 0 10px rgba(212, 255, 0, 0.2);
+        }
+
+        /* Badge grid display */
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .badge-card {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 25px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .badge-card:hover, .badge-card.selected {
+            background: rgba(15, 23, 42, 0.8);
+            border-color: #d4ff00;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .badge-card.selected {
+            box-shadow: 0 0 20px rgba(212, 255, 0, 0.15);
+        }
+
+        .badge-icon-wrapper {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px auto;
+        }
+
+        .badge-svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 5px rgba(212, 255, 0, 0.1));
+            transition: transform 0.4s ease;
+        }
+
+        .badge-card:hover .badge-svg {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        .badge-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0 0 5px 0;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+
+        .badge-card .badge-type {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #d4ff00;
+            text-transform: uppercase;
+        }
+
+        /* Detail inspection panel */
+        .details-panel {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(212, 255, 0, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            height: fit-content;
+            position: sticky;
+            top: 40px;
+            backdrop-filter: blur(15px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .details-panel h2 {
+            font-size: 24px;
+            text-transform: uppercase;
+            margin: 20px 0 10px 0;
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
+
+        .details-panel .badge-large-wrapper {
+            width: 160px;
+            height: 160px;
+            background: rgba(2, 6, 23, 0.5);
+            border-radius: 50%;
+            padding: 15px;
+            border: 1px dashed rgba(212, 255, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .details-panel .desc {
+            font-size: 15px;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 20px;
+            width: 100%;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .metric-row span:first-child {
+            color: #64748b;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .metric-row span:last-child {
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+            padding: 30px 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #475569;
+            z-index: 1;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <p class="mono">// REWARDS ARCHIVE // LUNAR BASE I</p>
+        <h1>Command Badges Registry</h1>
+    </div>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-link-btn">
+            <i class="fa-solid fa-satellite-dish"></i> Hangar (Home)
+        </a>
+        <a href="modules.html" class="nav-link-btn">
+            <i class="fa-solid fa-cubes"></i> Class Modules
+        </a>
+        <a href="badges.html" class="nav-link-btn" style="background: #d4ff00; color: #020617;">
+            <i class="fa-solid fa-award"></i> Command Badges
+        </a>
+        <a href="excercises.html" class="nav-link-btn">
+            <i class="fa-solid fa-user-astronaut"></i> Tactical Training
+        </a>
+    </nav>
+
+    <div class="showcase-container">
+        
+        <div>
+            <div class="filter-bar">
+                <button class="filter-btn active" onclick="filterBadges('all', this)">All Blueprints</button>
+                <button class="filter-btn" onclick="filterBadges('core', this)">Command Ranks</button>
+                <button class="filter-btn" onclick="filterBadges('special', this)">Special Medals</button>
+            </div>
+
+            <div class="badge-grid" id="badge-grid">
+                <div class="badge-card selected" data-type="core" onclick="selectBadge('cadet', this)">
+                    <div class="badge-icon-wrapper">
+                        <svg class="badge-svg" viewBox="0 0 200 200" fill="none">
+                            <circle cx="100" cy="100" r="90" stroke="rgba(212, 255, 0, 0.2)" stroke-width="2" />
+                            <circle cx="100" cy="100" r="82" stroke="#d4ff00" stroke-width="2" stroke-dasharray="8 6" />
+                            <path d="M 100 55 L 125 100 L 100 145 L 75 100 Z" fill="rgba(212, 255, 0, 0.1)" stroke="#d4ff00" stroke-width="2" />
+                            <circle cx="100" cy="100" r="6" fill="#d4ff00" />
+                        </svg>
+                    </div>
+                    <h3>Support Cadet</h3>
+                    <span class="badge-type">Rank 01 // 500 XP</span>
+                </div>
+
+                <div class="badge-card" data-type="core" onclick="selectBadge('specialist', this)">
+                    <div class="badge-icon-wrapper">
+                        <svg class="badge-svg" viewBox="0 0 200 200" fill="none">
+                            <circle cx="100" cy="100" r="90" stroke="rgba(212, 255, 0, 0.2)" stroke-width="1" />
+                            <circle cx="100" cy="100" r="84" stroke="#d4ff00" stroke-width="3" stroke-dasharray="120 20 40 20" />
+                            <ellipse cx="100" cy="105" rx="70" ry="25" stroke="rgba(255, 255, 255, 0.3)" stroke-width="2" transform="rotate(-25 100 105)" />
+                            <g transform="translate(100,100) rotate(-45) translate(-100,-100)">
+                                <path d="M 92 130 L 92 85 L 100 70 L 108 85 L 108 130 Z" fill="#ffffff" />
+                            </g>
+                        </svg>
+                    </div>
+                    <h3>Flight Specialist</h3>
+                    <span class="badge-type">Rank 02 // 1500 XP</span>
+                </div>
+
+                <div class="badge-card" data-type="core" onclick="selectBadge('engineer', this)">
+                    <div class="badge-icon-wrapper">
+                        <svg class="badge-svg" viewBox="0 0 200 200" fill="none">
+                            <circle cx="100" cy="100" r="90" stroke="rgba(212, 255, 0, 0.2)" stroke-width="1" />
+                            <circle cx="100" cy="100" r="82" stroke="#ffffff" stroke-width="1.5" />
+                            <path d="M 100 35 L 156 67 L 156 133 L 100 165 L 44 133 L 44 67 Z" stroke="#d4ff00" stroke-width="2" stroke-dasharray="6 4" />
+                            <rect x="80" y="88" width="40" height="24" rx="4" fill="#ffffff" stroke="#020617" stroke-width="2" />
+                        </svg>
+                    </div>
+                    <h3>Structural Eng.</h3>
+                    <span class="badge-type">Rank 03 // 2500 XP</span>
+                </div>
+
+                <div class="badge-card" data-type="core" onclick="selectBadge('commander', this)">
+                    <div class="badge-icon-wrapper">
+                        <svg class="badge-svg" viewBox="0 0 200 200" fill="none">
+                            <circle cx="100" cy="100" r="84" stroke="#d4ff00" stroke-width="2" />
+                            <path d="M 135 65 A 45 45 0 1 0 135 135 A 35 35 0 1 1 135 65 Z" fill="#ffffff" />
+                            <circle cx="95" cy="100" r="6" fill="#d4ff00" />
+                        </svg>
+                    </div>
+                    <h3>Artemis Cmdr.</h3>
+                    <span class="badge-type">Final Rank // 4000+ XP</span>
+                </div>
+
+                <div class="badge-card" data-type="special" onclick="selectBadge('comm', this)">
+                    <div class="badge-icon-wrapper">
+                        <svg class="badge-svg" viewBox="0 0 200 200" fill="none">
+                            <circle cx="100" cy="100" r="82" stroke="#d4ff00" stroke-width="2" stroke-dasharray="10 5" />
+                            <polygon points="90,150 110,150 102,70 98,70" fill="#ffffff" />
+                            <circle cx="100" cy="65" r="10" fill="#d4ff00" />
+                        </svg>
+                    </div>
+                    <h3>Active Comm Link</h3>
+                    <span class="badge-type">Special // +300 XP</span>
+                </div>
+
+                <div class="badge-card" data-type="special" onclick="selectBadge('anchor', this)">
+                    <div class="badge-icon-wrapper">
+                        <svg class="badge-svg" viewBox="0 0 200 200" fill="none">
+                            <circle cx="100" cy="100" r="82" stroke="#ffffff" stroke-width="2" />
+                            <path d="M 70 60 L 130 60 L 130 110 C 130 140 100 160 100 160 C 100 160 70 140 70 110 Z" stroke="#ffffff" stroke-width="2" />
+                            <ellipse cx="100" cy="120" rx="20" ry="20" fill="#d4ff00" />
+                        </svg>
+                    </div>
+                    <h3>Structural Anchor</h3>
+                    <span class="badge-type">Special // +400 XP</span>
+                </div>
+
+                <div class="badge-card" data-type="special" onclick="selectBadge('navigator', this)">
+                    <div class="badge-icon-wrapper">
+                        <svg class="badge-svg" viewBox="0 0 200 200" fill="none">
+                            <circle cx="100" cy="100" r="82" stroke="#d4ff00" stroke-width="2" />
+                            <path d="M 100 40 L 112 88 L 160 100 L 112 112 L 100 160 L 88 112 L 40 100 L 88 88 Z" fill="rgba(212, 255, 0, 0.15)" stroke="#d4ff00" stroke-width="2" />
+                        </svg>
+                    </div>
+                    <h3>Apex Navigator</h3>
+                    <span class="badge-type">Special // +500 XP</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="details-panel" id="details-panel">
+            <div class="badge-large-wrapper" id="detail-svg-container">
+                </div>
+            <h2 id="detail-title">Support Cadet</h2>
+            <p class="desc" id="detail-desc">Your first flight certification path. Acquired by successfully calibrating Lunar Base I measurement arrays, processing scientific prefix scaling, and resolving precise multi-coordinate vector tracking layouts.</p>
+            
+            <div class="metric-row">
+                <span>Module Focus</span>
+                <span id="detail-mod">Module I: Calibration</span>
+            </div>
+            <div class="metric-row">
+                <span>Requirement</span>
+                <span id="detail-req">Approve Phase 1 Vectors Validation</span>
+            </div>
+            <div class="metric-row">
+                <span>XP Value</span>
+                <span id="detail-xp" style="color: #d4ff00;">500 XP</span>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <p>// NASA LUNAR INITIATIVE • TRANSMISSION SECURED VIA PORTAL-ENERGY AND TRANSFORMATION I-2026 //</p>
+    </footer>
+
+    <script>
+        // Badges database array tailored for the physical systems criteria
+        const badgesData = {
+            cadet: {
+                title: "Support Cadet",
+                desc: "Your first operational spaceflight milestone. Granted upon demonstrating total command over unit system scales, handling precision scientific notations without fractional drifting, and establishing vector tracking mechanics.",
+                mod: "Module I: Calibration",
+                req: "Approve Phase 1 Vectors Validation",
+                xp: "500 XP",
+                svg: `<svg viewBox="0 0 200 200" fill
