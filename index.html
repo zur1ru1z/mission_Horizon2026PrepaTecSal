@@ -68,6 +68,12 @@
             max-width: 1200px;
             z-index: 1;
             margin-bottom: 60px;
+            height: 260px;
+            overflow: hidden;
+            position: relative;
+        }
+        .announcement-track {
+            animation: scrollBriefings 12s ease-in-out infinite alternate;
         }
         .announcement-item {
             display: flex;
@@ -75,9 +81,24 @@
             align-items: flex-start;
             margin-top: 15px;
         }
+        .announcement-item:first-child {
+            margin-top: 0;
+        }
         .announcement-item i {
             color: #d4ff00;
             margin-top: 4px;
+        }
+        @keyframes scrollBriefings {
+            0% { transform: translateY(0); }
+            25% { transform: translateY(0); }
+            50% { transform: translateY(-50%); }
+            75% { transform: translateY(-50%); }
+            100% { transform: translateY(-100%); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .announcement-track {
+                animation: none;
+            }
         }
         .footer {
             border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -143,18 +164,27 @@
     </div>
 
     <div class="announcement-box">
-        <div class="announcement-item">
-            <i class="fa-solid fa-triangle-exclamation"></i>
-            <div>
-                <strong style="color: #ffffff; font-family: 'JetBrains Mono'; display: block; font-size: 14px;">[ ALERT ] MISSION OVERVIEW ACTIVE</strong>
-                <span style="color: #94a3b8; font-size: 15px;">Welcome to the Hangar! Make sure to browse your active <strong>Class Modules</strong> to download current lecture files and complete assignments. Your XP progression is being monitored.</span>
+        <div class="announcement-track">
+            <div class="announcement-item">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <div>
+                    <strong style="color: #ffffff; font-family: 'JetBrains Mono'; display: block; font-size: 14px;">[ ALERT ] MISSION OVERVIEW ACTIVE</strong>
+                    <span style="color: #94a3b8; font-size: 15px;">Welcome to the Hangar! Make sure to browse your active <strong>Class Modules</strong> to download current lecture files and complete assignments. Your XP progression is being monitored.</span>
+                </div>
             </div>
-        </div>
-        <div class="announcement-item">
-            <i class="fa-solid fa-circle-info"></i>
-            <div>
-                <strong style="color: #ffffff; font-family: 'JetBrains Mono'; display: block; font-size: 14px;">[ NOTE ] COMMAND BADGES SYSTEM ONLINE</strong>
-                <span style="color: #94a3b8; font-size: 15px;">Check the <strong>Command Badges</strong> archive to review the special performance medals and rank status rewards available during this rotation cycle.</span>
+            <div class="announcement-item">
+                <i class="fa-solid fa-satellite"></i>
+                <div>
+                    <strong style="color: #ffffff; font-family: 'JetBrains Mono'; display: block; font-size: 14px;">[ ALERT ] LMS UPLINK ESTABLISHED</strong>
+                    <span style="color: #94a3b8; font-size: 15px;">Access the main mission data through the official LMS: <a href="https://experiencia21.tec.mx/" target="_blank" rel="noopener" style="color: #d4ff00; text-decoration: underline;">experiencia21.tec.mx</a>.</span>
+                </div>
+            </div>
+            <div class="announcement-item">
+                <i class="fa-solid fa-circle-info"></i>
+                <div>
+                    <strong style="color: #ffffff; font-family: 'JetBrains Mono'; display: block; font-size: 14px;">[ NOTE ] COMMAND BADGES SYSTEM ONLINE</strong>
+                    <span style="color: #94a3b8; font-size: 15px;">Check the <strong>Command Badges</strong> archive to review the special performance medals and rank status rewards available during this rotation cycle.</span>
+                </div>
             </div>
         </div>
     </div>
