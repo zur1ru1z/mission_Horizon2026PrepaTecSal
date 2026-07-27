@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy and Transformation I - Tactical Training</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Urbanist', sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            padding-top: 15px;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #d4ff00;
+            letter-spacing: 1.5px;
+            margin-bottom: 4px;
+        }
+
+        .navbar {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+            z-index: 10;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+
+        .nav-link-btn {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            padding: 8px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link-btn:hover {
+            color: #f8fafc;
+            border-color: #d4ff00;
+            transform: translateY(-2px);
+        }
+
+        .main-container {
+            max-width: 1300px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 20px 30px 20px;
+            box-sizing: border-box;
+            flex: 1;
+        }
+
+        /* GRID FOR TACTICAL PHASE CARDS */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .phase-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(212, 255, 0, 0.2);
+            border-radius: 14px;
+            padding: 22px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .phase-card:hover {
+            border-color: rgba(212, 255, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .phase-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 12px;
+        }
+
+        .phase-title-group h3 {
+            margin: 0;
+            font-size: 18px;
+            text-transform: uppercase;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .phase-title-group p {
+            margin: 4px 0 0 0;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .module-badge-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #d4ff00;
+            background: rgba(212, 255, 0, 0.1);
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(212, 255, 0, 0.2);
+            white-space: nowrap;
+        }
+
+        /* RESOURCE LIST ENLISTMENT STYLES */
+        .resource-enlistment {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .resource-row {
+            background: rgba(2, 6, 23, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .resource-row:hover {
+            border-color: rgba(212, 255, 0, 0.3);
+            background: rgba(15, 23, 42, 0.8);
+            transform: translateX(4px);
+        }
+
+        .resource-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .res-code-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            color: #d4ff00;
+            background: rgba(212, 255, 0, 0.1);
+            border: 1px solid rgba(212, 255, 0, 0.25);
+            padding: 4px 8px;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+
+        .res-name {
+            font-size: 13px;
+            color: #e2e8f0;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .res-status-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #64748b;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #d4ff00;
+            box-shadow: 0 0 6px #d4ff00;
+        }
+
+        .footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            padding: 15px 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #475569;
+            letter-spacing: 1px;
+            background: #020617;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 850px) {
+            .grid-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <p class="mono">// TACTICAL TRAINING PHASES & RESOURCE REGISTRY //</p>
+        <h1>Tactical Training</h1>
+    </div>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-link-btn">
+            <i class="fa-solid fa-satellite-dish"></i> Hangar (Home)
+        </a>
+        <a href="modules.html" class="nav-link-btn">
+            <i class="fa-solid fa-cubes"></i> Class Modules
+        </a>
+        <a href="badges.html" class="nav-link-btn">
+            <i class="fa-solid fa-award"></i> Command Badges
+        </a>
+        <a href="excercises.html" class="nav-link-btn" style="background: #d4ff00; color: #020617;">
+            <i class="fa-solid fa-user-astronaut"></i> Tactical Training
+        </a>
+    </nav>
+
+    <div class="main-container">
+        <div class="grid-layout">
+
+            <!-- TRAINING PHASE 1: MODULE I -->
+            <div class="phase-card">
+                <div class="phase-card-header">
+                    <div class="phase-title-group">
+                        <h3>Training Phase 1</h3>
+                        <p>Vector Calibration & Scale Precision</p>
+                    </div>
+                    <span class="module-badge-tag"><i class="fa-solid fa-compass"></i> MODULE I</span>
+                </div>
+
+                <div class="resource-enlistment">
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 1.1</span>
+                            <span class="res-name">Metric Unit Conversions & Scale Precision</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 1.2</span>
+                            <span class="res-name">Scientific Notation & Vector Coordinates</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 1.3</span>
+                            <span class="res-name">2D & 3D Vector Resolution Mechanics</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 1.4</span>
+                            <span class="res-name">Sub-Orbital Telemetry Data Processing</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 1.5</span>
+                            <span class="res-name">Phase 1 Vectors Validation Protocol</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRAINING PHASE 2: MODULE II -->
+            <div class="phase-card">
+                <div class="phase-card-header">
+                    <div class="phase-title-group">
+                        <h3>Training Phase 2</h3>
+                        <p>Trajectory Mechanics & Rocket Free-Fall</p>
+                    </div>
+                    <span class="module-badge-tag"><i class="fa-solid fa-rocket"></i> MODULE II</span>
+                </div>
+
+                <div class="resource-enlistment">
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 2.1</span>
+                            <span class="res-name">Uniformly Accelerated Rectilinear Motion</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 2.2</span>
+                            <span class="res-name">Lunar Free-Fall & Gravity Calibration</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 2.3</span>
+                            <span class="res-name">Horizontal Rocket Launch & Parabolic Motion</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 2.4</span>
+                            <span class="res-name">Landing Sequence Trajectory Optimization</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 2.5</span>
+                            <span class="res-name">The Ascent Challenge: Critical Insertion Run</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRAINING PHASE 3: MODULE III -->
+            <div class="phase-card">
+                <div class="phase-card-header">
+                    <div class="phase-title-group">
+                        <h3>Training Phase 3</h3>
+                        <p>Static Equilibrium & Structural Dynamics</p>
+                    </div>
+                    <span class="module-badge-tag"><i class="fa-solid fa-cubes-stacked"></i> MODULE III</span>
+                </div>
+
+                <div class="resource-enlistment">
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 3.1</span>
+                            <span class="res-name">Static Equilibrium & Newton's First Law</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 3.2</span>
+                            <span class="res-name">Concurrent Force Resolution in 2D</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 3.3</span>
+                            <span class="res-name">Free Body Diagram (FBD) Drafting Protocols</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 3.4</span>
+                            <span class="res-name">Airlock Structural Decompression Safety</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 3.5</span>
+                            <span class="res-name">Structural Integrity Net-Zero Balance Exam</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRAINING PHASE 4: MODULE IV -->
+            <div class="phase-card">
+                <div class="phase-card-header">
+                    <div class="phase-title-group">
+                        <h3>Training Phase 4</h3>
+                        <p>Energy Systems & Solar Harvesting Loops</p>
+                    </div>
+                    <span class="module-badge-tag"><i class="fa-solid fa-bolt"></i> MODULE IV</span>
+                </div>
+
+                <div class="resource-enlistment">
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 4.1</span>
+                            <span class="res-name">Kinetic vs. Potential Energy in Low Gravity</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 4.2</span>
+                            <span class="res-name">Work-Energy Theorem & Friction Losses</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 4.3</span>
+                            <span class="res-name">Solar Harvesting & Battery Preservation</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 4.4</span>
+                            <span class="res-name">Mechanical Power Efficiency & Thermal Conversion</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+
+                    <div class="resource-row">
+                        <div class="resource-left">
+                            <span class="res-code-badge">Resource 4.5</span>
+                            <span class="res-name">Artemis Command Energy Integration Project</span>
+                        </div>
+                        <div class="res-status-tag"><span class="status-dot"></span> Active</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>// LUNAR INITIATIVE COMMAND • TRANSMISSION SECURED VIA PORTAL-ENERGY AND TRANSFORMATION I-2026 //</p>
+    </footer>
+
+</body>
+</html>
