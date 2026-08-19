@@ -106,40 +106,110 @@
             background: rgba(15, 23, 42, 0.6);
             border: 1px solid rgba(212, 255, 0, 0.2);
             border-radius: 16px;
-            padding: 25px;
+            padding: 35px 40px;
             margin-bottom: 40px;
             backdrop-filter: blur(10px);
         }
-        .audio-track {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 15px 25px;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        .audio-player {
+            max-width: 900px;
+            margin: 0 auto;
         }
-        .audio-track:first-child {
-            padding-top: 0;
+        .audio-player-header {
+            text-align: center;
+            margin-bottom: 28px;
         }
-        .audio-track:last-child {
-            padding-bottom: 0;
-            border-bottom: 0;
-        }
-        .audio-track-label {
+        .audio-player-header h3 {
             color: #ffffff;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            letter-spacing: 0.5px;
+            font-size: 25px;
+            margin: 0 0 8px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
-        .audio-track-label i {
+        .audio-player-header p {
             color: #d4ff00;
-            margin-right: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            margin: 0;
         }
-        .audio-track audio {
+        .audio-progress-row {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 14px;
+        }
+        .audio-time {
+            color: #94a3b8;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            min-width: 38px;
+        }
+        .audio-progress {
             width: 100%;
-            min-width: 280px;
-            height: 38px;
-            accent-color: #d4ff00;
+            height: 7px;
+            appearance: none;
+            border-radius: 10px;
+            background: linear-gradient(to right, #d4ff00 0%, #d4ff00 0%, rgba(255,255,255,.2) 0%, rgba(255,255,255,.2) 100%);
+            cursor: pointer;
+        }
+        .audio-progress::-webkit-slider-thumb {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 2px solid #d4ff00;
+            box-shadow: 0 0 8px rgba(212,255,0,.55);
+        }
+        .audio-track-name {
+            color: #ffffff;
+            font-size: 18px;
+            text-align: right;
+            margin: 18px 0 25px;
+        }
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .audio-control {
+            width: 54px;
+            height: 54px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            background: transparent;
+            color: #ffffff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+        .audio-control:hover,
+        .audio-control:focus-visible {
+            color: #020617;
+            background: #d4ff00;
+            border-color: #d4ff00;
+            transform: translateY(-2px);
+        }
+        .audio-control.primary {
+            color: #d4ff00;
+            border-color: #d4ff00;
+            width: 64px;
+            height: 64px;
+            font-size: 22px;
+        }
+        .audio-control.primary:hover,
+        .audio-control.primary:focus-visible {
+            color: #020617;
+        }
+        .audio-status {
+            text-align: center;
+            color: #64748b;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            margin: 22px 0 0;
+            letter-spacing: 1px;
         }
         .footer {
             border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -156,8 +226,11 @@
         @media (max-width: 768px) {
             .banner-container { grid-template-columns: 1fr; gap: 20px; padding: 20px; }
             .navbar { flex-wrap: wrap; justify-content: center; gap: 10px; }
-            .audio-track { grid-template-columns: 1fr; gap: 8px; }
-            .audio-track audio { min-width: 0; }
+            .audio-player-box { padding: 25px 18px; }
+            .audio-progress-row { grid-template-columns: 35px 1fr 35px; gap: 8px; }
+            .audio-track-name { font-size: 15px; text-align: center; }
+            .audio-control { width: 46px; height: 46px; font-size: 15px; }
+            .audio-control.primary { width: 56px; height: 56px; }
         }
     </style>
 </head>
@@ -260,33 +333,27 @@
     </div>
 
     <div class="audio-player-box">
-        <div class="audio-track">
-            <div class="audio-track-label"><i class="fa-solid fa-music"></i> SONG 01</div>
-            <audio controls preload="metadata">
-                <source src="cancion1.mp3" type="audio/mpeg">
+        <div class="audio-player" aria-label="Mission audio player">
+            <div class="audio-player-header">
+                <h3>Audio Player</h3>
+                <p>// MISSION AUDIO ARCHIVE //</p>
+            </div>
+            <audio id="mission-audio" preload="metadata">
                 Your browser does not support the audio element.
             </audio>
-        </div>
-        <div class="audio-track">
-            <div class="audio-track-label"><i class="fa-solid fa-music"></i> SONG 02</div>
-            <audio controls preload="metadata">
-                <source src="cancion2.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
-        </div>
-        <div class="audio-track">
-            <div class="audio-track-label"><i class="fa-solid fa-music"></i> SONG 03</div>
-            <audio controls preload="metadata">
-                <source src="cancion3.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
-        </div>
-        <div class="audio-track">
-            <div class="audio-track-label"><i class="fa-solid fa-music"></i> SONG 04</div>
-            <audio controls preload="metadata">
-                <source src="cancion4.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
+            <div class="audio-progress-row">
+                <span id="audio-current-time" class="audio-time">0:00</span>
+                <input id="audio-progress" class="audio-progress" type="range" min="0" max="100" value="0" aria-label="Audio progress">
+                <span id="audio-duration" class="audio-time">0:00</span>
+            </div>
+            <p id="audio-track-name" class="audio-track-name">Street vectors v1</p>
+            <div class="audio-controls">
+                <button id="audio-stop" class="audio-control" type="button" aria-label="Stop"><i class="fa-solid fa-stop"></i></button>
+                <button id="audio-previous" class="audio-control" type="button" aria-label="Previous song"><i class="fa-solid fa-backward-step"></i></button>
+                <button id="audio-play" class="audio-control primary" type="button" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+                <button id="audio-next" class="audio-control" type="button" aria-label="Next song"><i class="fa-solid fa-forward-step"></i></button>
+            </div>
+            <p id="audio-status" class="audio-status">TRACK 01 OF 04 • READY</p>
         </div>
     </div>
 
@@ -347,6 +414,79 @@
     <footer class="footer">
         <p>// NASA LUNAR INITIATIVE • TRANSMISSION SECURED VIA PORTAL-ENERGY AND TRANSFORMATION I-2026 //</p>
     </footer>
+
+    <script>
+        const audioTracks = [
+            { title: 'Street vectors v1', file: 'cancion1.mp3' },
+            { title: 'Street vectors v2', file: 'cancion2.mp3' },
+            { title: 'Measure systems v1', file: 'cancion3.mp3' },
+            { title: 'Measure systems v2', file: 'cancion4.mp3' }
+        ];
+        const audio = document.getElementById('mission-audio');
+        const playButton = document.getElementById('audio-play');
+        const progress = document.getElementById('audio-progress');
+        const currentTime = document.getElementById('audio-current-time');
+        const duration = document.getElementById('audio-duration');
+        const trackName = document.getElementById('audio-track-name');
+        const status = document.getElementById('audio-status');
+        let currentTrack = 0;
+
+        const formatTime = (seconds) => {
+            if (!Number.isFinite(seconds)) return '0:00';
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60).toString().padStart(2, '0');
+            return `${minutes}:${remainingSeconds}`;
+        };
+
+        const updateProgress = () => {
+            const percentage = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+            progress.value = percentage;
+            progress.style.background = `linear-gradient(to right, #d4ff00 ${percentage}%, rgba(255,255,255,.2) ${percentage}%)`;
+            currentTime.textContent = formatTime(audio.currentTime);
+        };
+
+        const loadTrack = (trackIndex, shouldPlay = false) => {
+            currentTrack = (trackIndex + audioTracks.length) % audioTracks.length;
+            const track = audioTracks[currentTrack];
+            audio.src = track.file;
+            trackName.textContent = track.title;
+            status.textContent = `TRACK ${String(currentTrack + 1).padStart(2, '0')} OF 04 • READY`;
+            currentTime.textContent = '0:00';
+            duration.textContent = '0:00';
+            progress.value = 0;
+            progress.style.background = 'linear-gradient(to right, #d4ff00 0%, #d4ff00 0%, rgba(255,255,255,.2) 0%, rgba(255,255,255,.2) 100%)';
+            if (shouldPlay) audio.play();
+        };
+
+        const updatePlayButton = () => {
+            const isPlaying = !audio.paused;
+            playButton.innerHTML = `<i class="fa-solid fa-${isPlaying ? 'pause' : 'play'}"></i>`;
+            playButton.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
+            status.textContent = `TRACK ${String(currentTrack + 1).padStart(2, '0')} OF 04 • ${isPlaying ? 'PLAYING' : 'READY'}`;
+        };
+
+        playButton.addEventListener('click', () => audio.paused ? audio.play() : audio.pause());
+        document.getElementById('audio-stop').addEventListener('click', () => {
+            audio.pause();
+            audio.currentTime = 0;
+            updateProgress();
+        });
+        document.getElementById('audio-previous').addEventListener('click', () => loadTrack(currentTrack - 1, true));
+        document.getElementById('audio-next').addEventListener('click', () => loadTrack(currentTrack + 1, true));
+        progress.addEventListener('input', () => {
+            if (audio.duration) audio.currentTime = (progress.value / 100) * audio.duration;
+        });
+        audio.addEventListener('loadedmetadata', () => {
+            duration.textContent = formatTime(audio.duration);
+            updateProgress();
+        });
+        audio.addEventListener('timeupdate', updateProgress);
+        audio.addEventListener('play', updatePlayButton);
+        audio.addEventListener('pause', updatePlayButton);
+        audio.addEventListener('ended', () => loadTrack(currentTrack + 1, true));
+
+        loadTrack(0);
+    </script>
 
 </body>
 </html>
