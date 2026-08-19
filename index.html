@@ -100,6 +100,47 @@
                 animation: none;
             }
         }
+        .audio-player-box {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(212, 255, 0, 0.2);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+        }
+        .audio-track {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 15px 25px;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .audio-track:first-child {
+            padding-top: 0;
+        }
+        .audio-track:last-child {
+            padding-bottom: 0;
+            border-bottom: 0;
+        }
+        .audio-track-label {
+            color: #ffffff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+        .audio-track-label i {
+            color: #d4ff00;
+            margin-right: 8px;
+        }
+        .audio-track audio {
+            width: 100%;
+            min-width: 280px;
+            height: 38px;
+            accent-color: #d4ff00;
+        }
         .footer {
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             width: 100%;
@@ -115,6 +156,8 @@
         @media (max-width: 768px) {
             .banner-container { grid-template-columns: 1fr; gap: 20px; padding: 20px; }
             .navbar { flex-wrap: wrap; justify-content: center; gap: 10px; }
+            .audio-track { grid-template-columns: 1fr; gap: 8px; }
+            .audio-track audio { min-width: 0; }
         }
     </style>
 </head>
@@ -209,6 +252,41 @@
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen>
             </iframe>
+        </div>
+    </div>
+
+    <div class="section-title">
+        <i class="fa-solid fa-headphones"></i> Mission <span>Audio</span> Archive
+    </div>
+
+    <div class="audio-player-box">
+        <div class="audio-track">
+            <div class="audio-track-label"><i class="fa-solid fa-music"></i> SONG 01</div>
+            <audio controls preload="metadata">
+                <source src="cancion1.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        <div class="audio-track">
+            <div class="audio-track-label"><i class="fa-solid fa-music"></i> SONG 02</div>
+            <audio controls preload="metadata">
+                <source src="cancion2.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        <div class="audio-track">
+            <div class="audio-track-label"><i class="fa-solid fa-music"></i> SONG 03</div>
+            <audio controls preload="metadata">
+                <source src="cancion3.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        <div class="audio-track">
+            <div class="audio-track-label"><i class="fa-solid fa-music"></i> SONG 04</div>
+            <audio controls preload="metadata">
+                <source src="cancion4.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
         </div>
     </div>
 
